@@ -10,10 +10,10 @@ const todoCreate = todo => ({
   payload: todo,
 });
 
-// const todoUpdate = todo => ({
-//   type: 'TODO_UPDATE',
-//   payload: todo,
-// });
+const todoUpdate = todo => ({
+  type: 'TODO_UPDATE',
+  payload: todo,
+});
 
 const todoDelete = todo => ({
   type: 'TODO_DELETE',
@@ -37,7 +37,14 @@ const todoCreateRequest = todo => (dispatch) => {
     });
 };
 
-// TODO: add const todoUpdateRequest
+const todoUpdateRequest = todo => (dispatch) => {
+  return superagent.put(`${API_URL}/api/lists/${todo._id}`)
+    .send(todo)
+    .then((response) => {
+      dispatch(todoUpdate(todo));
+      return response;
+    });
+};
 
 const todoDeleteRequest = todo => (dispatch) => {
   return superagent.delete(`${API_URL}/api/lists/${todo._id}`)
@@ -47,4 +54,4 @@ const todoDeleteRequest = todo => (dispatch) => {
     });
 };
 
-export { todosFetchRequest, todoCreateRequest, todoDeleteRequest };
+export { todosFetchRequest, todoCreateRequest, todoUpdateRequest, todoDeleteRequest };
