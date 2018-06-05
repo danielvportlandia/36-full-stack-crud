@@ -10,7 +10,13 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { todos, todoCreate, todoDelete } = this.props;
+    const { 
+      todos, 
+      todoCreate, 
+      todoUpdate, 
+      todoDelete,
+    } = this.props;
+
     return (
       <div className='dashboard'>
         <h2>Todo App</h2>
@@ -24,6 +30,11 @@ class Dashboard extends React.Component {
               <div key={todo._id}>
                 <p>{todo.title}</p>
                 <button onClick={() => todoDelete(todo)}>X</button>
+                <TodoForm
+                  onComplete={todoUpdate}
+                  buttonText='Update Todo'
+                  todo={todo}
+                />
               </div>
             );
           })
@@ -36,7 +47,9 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   todosFetch: PropTypes.func,
   todoCreate: PropTypes.func,
+  todoUpdate: PropTypes.func,
   todoDelete: PropTypes.func,
+  todo: PropTypes.object,
   todos: PropTypes.array,
 };
 
@@ -49,6 +62,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   todosFetch: () => dispatch(todoActions.todosFetchRequest()),
   todoCreate: todo => dispatch(todoActions.todoCreateRequest(todo)),
+  todoUpdate: todo => dispatch(todoActions.todoUpdateRequest(todo)),
   todoDelete: todo => dispatch(todoActions.todoDeleteRequest(todo)),
 });
 
